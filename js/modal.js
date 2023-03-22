@@ -11,7 +11,6 @@ function editNav() {
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
-const closeModal = document.querySelector(".close");      //Nima
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -22,14 +21,19 @@ function launchModal() {
 }
 
 
-// Nima code Start Here
-
 /**
- * Close Modal when clic on X
- *
- * @function
+ *   ######################
+ *       Code Start Here
+ *   ######################
  */
-closeModal.onclick = function() {
-  modalbg.style.display = "none";
+
+// Sélectionne l'élément avec la classe "close" et le stocke dans la variable "closeModal".
+const closeModal = document.querySelector(".close");
+
+//Cette fonction change la propriété "display" de l'élément "modalbg" en "none", ce qui cache l'élément à l'écran.
+const closeFunction = (MouseEvent) => {
+  modalbg.style.display = "none"
 }
 
+// Ce code ajoute un événement "click" à l'élément closeModal qui exécutera la fonction closeFunction lorsque l'utilisateur cliquera sur cet élément.
+closeModal.addEventListener("click", closeFunction);
