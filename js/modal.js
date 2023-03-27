@@ -78,3 +78,34 @@ function validateInput (input, regex, errorMessage) {
     input.parentElement.setAttribute("data-error-visible", !isValid);
   })
 }
+
+
+/**
+ *   ########################################################################################
+ *       Date
+ *   ########################################################################################
+ */
+const birthdateInput = document.getElementById('birthdate');
+
+validateBirthdate(birthdateInput, "La date n'est pas valide");
+
+/**
+ * Valide l'entrée de la date de naissance en vérifiant si elle est inférieure à la date actuelle
+ * et supérieure ou égale à l'année de naissance minimale (1950).
+ * Si l'entrée n'est pas valide, un message d'erreur s'affiche.
+ *
+ * @function
+ * @name validateBirthdate
+ * @param {HTMLInputElement} input - L'élément d'entrée contenant la date de naissance à valider.
+ * @param {string} errorMessage - Le message d'erreur à afficher si l'entrée n'est pas valide.
+ */
+function validateBirthdate(input, errorMessage) {
+  input.addEventListener("input", function () {
+    const inputDate = new Date(input.value);
+    const currentDate = new Date();
+    const minBirthYear = 1900;
+    const isValid = inputDate < currentDate && inputDate >= minBirthYear;
+    input.parentElement.setAttribute("data-error", isValid ? "" : errorMessage);
+    input.parentElement.setAttribute("data-error-visible", !isValid);
+  });
+}
