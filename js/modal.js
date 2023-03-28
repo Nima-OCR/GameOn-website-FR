@@ -109,3 +109,37 @@ function validateBirthdate(input, errorMessage) {
     input.parentElement.setAttribute("data-error-visible", !isValid);
   });
 }
+
+/**
+ *   ########################################################################################
+ *       Quantité De Tournois
+ *   ########################################################################################
+ */
+
+/**
+ * Récupère l'élément HTML correspondant à l'input de quantité de tournois GameOn.
+ * @type {HTMLInputElement}
+ */
+const quantityInput = document.getElementById('quantity');
+
+/**
+ * Récupère l'élément parent de l'input quantity, qui contient les données du formulaire.
+ * @type {HTMLElement}
+ */
+const inputContainer = quantityInput.parentElement;
+
+/**
+ * Ajoute un écouteur d'événement à l'input de quantité de tournois.
+ */
+  quantityInput.addEventListener('blur', function () {
+
+  if (!quantityInput.value ||  quantityInput.value <= 0 ) {
+    // Si le champ est vide ou non numérique, affiche l'erreur
+    inputContainer.setAttribute('data-error', 'Veuillez saisir un nombre valide de tournois.');
+    inputContainer.setAttribute('data-error-visible', 'true');
+  } else {
+    // Sinon, cache l'erreur
+    inputContainer.removeAttribute('data-error');
+    inputContainer.removeAttribute('data-error-visible');
+  }
+});

@@ -506,11 +506,7 @@ footer {
     border-radius: 10px;
     margin-top: 40px;
   }
-  .hero-section > .btn-signup {
-    display: block;
-    margin: 32px auto 10px;
-    padding: 12px 35px;
-  }
+
   .copyrights {
     margin-top: 50px;
     text-align: center;
