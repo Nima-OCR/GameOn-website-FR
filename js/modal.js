@@ -130,16 +130,14 @@ const inputContainer = quantityInput.parentElement;
 
 /**
  * Ajoute un écouteur d'événement à l'input de quantité de tournois.
+ * Affiche ou masque le message d'erreur en fonction de la validité de la valeur saisie.
  */
   quantityInput.addEventListener('blur', function () {
 
-  if (!quantityInput.value ||  quantityInput.value <= 0 ) {
-    // Si le champ est vide ou non numérique, affiche l'erreur
-    inputContainer.setAttribute('data-error', 'Veuillez saisir un nombre valide de tournois.');
+  if (!quantityInput.value ||  quantityInput.value < 0 ) {
+    inputContainer.setAttribute('data-error', 'Veuillez saisir un nombre valide de tournois compris entre 0 et 99 .');
     inputContainer.setAttribute('data-error-visible', 'true');
   } else {
-    // Sinon, cache l'erreur
-    inputContainer.removeAttribute('data-error');
-    inputContainer.removeAttribute('data-error-visible');
+    inputContainer.setAttribute('data-error-visible', 'false');
   }
 });
