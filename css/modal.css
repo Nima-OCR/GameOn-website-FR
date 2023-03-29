@@ -226,7 +226,11 @@ input {
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid #e54858;
 }
-/* 
+
+.formData[data-error-visible="false"] .text-control {
+  border: 2px solid #279e7a;
+}
+/*
 input[data-error]::after {
     content: attr(data-error);
     font-size: 0.4em;
@@ -523,3 +527,24 @@ footer {
   }
 }
 
+
+/*Media Queries*/
+
+
+@media screen and (max-width: 830px) {
+  .hero-section>.modal-btn {
+    display: block;
+    margin: 30px auto;
+  }
+
+  .hero-headline {
+    font-size: 4rem;
+  }
+  .hero-text {
+    width: 100%;
+  }
+
+  .topnav a {
+    font-size: 18px;
+  }
+}
