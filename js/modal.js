@@ -143,6 +143,3 @@ const inputContainer = quantityInput.parentElement;
     inputContainer.removeAttribute('data-error-visible');
   }
 });
-
-
-
