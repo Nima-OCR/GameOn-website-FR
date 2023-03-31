@@ -135,9 +135,36 @@ const inputContainer = quantityInput.parentElement;
   quantityInput.addEventListener('blur', function () {
 
   if (!quantityInput.value ||  quantityInput.value < 0 ) {
-    inputContainer.setAttribute('data-error', 'Veuillez saisir un nombre valide de tournois compris entre 0 et 99 .');
+    inputContainer.setAttribute('data-error', 'Veuillez saisir un nombre valide de tournois compris entre 0 et 99');
     inputContainer.setAttribute('data-error-visible', 'true');
+
+    console.log("Mauvais nombre: " + quantityInput.value);
   } else {
     inputContainer.setAttribute('data-error-visible', 'false');
+    console.log("nb de tournois valide: " + quantityInput.value);
   }
+});
+
+
+
+/**
+ *   ########################################################################################
+ *       Sélection de la localisation
+ *   ########################################################################################
+ */
+
+
+/**
+ * Permet de sélectionner tous les boutons de radio sur la page qui ont un attribut name égal à "location"
+ */
+const radioButtons = document.querySelectorAll('input[type="radio"][name="location"]');
+
+/**
+ * Ajoute un gestionnaire d'événement click à chaque bouton radio pour récupérer la valeur sélectionnée
+ * @param {HTMLInputElement}
+ */
+radioButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const selectedValue = document.querySelector('input[name="location"]:checked').value;
+  });
 });
