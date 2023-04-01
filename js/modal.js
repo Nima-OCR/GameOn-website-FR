@@ -168,3 +168,26 @@ radioButtons.forEach((button) => {
     const selectedValue = document.querySelector('input[name="location"]:checked').value;
   });
 });
+
+
+/**
+ *   ########################################################################################
+ *       Conditions d'utilisation
+ *       Vous avez bien accepté les conditions d utilisation
+ *   ########################################################################################
+ */
+
+
+const checkbox = document.getElementById('checkbox1');
+const form = document.getElementById('conditions');
+
+form.addEventListener('input', (event) => {
+  if (checkbox.checked) {
+    form.setAttribute('data-error-visible', 'true');
+    form.setAttribute('data-valid', 'Vous avez bien accepté les conditions d\'utilisation');
+  } else {
+    form.setAttribute('data-error-visible', 'true');
+    form.setAttribute('data-error', 'Veuillez accepter les conditions d\'utilisation');
+    form.removeAttribute('data-valid');
+  }
+});
