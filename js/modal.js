@@ -71,13 +71,14 @@ validateInput(emailInput, /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/, "L
  * @param {RegExp} regex - L'expression régulière à utiliser pour valider le champ de saisie.
  * @param {string} errorMessage - Le message d'erreur à afficher si la saisie ne correspond pas à l'expression régulière.
  */
-function validateInput (input, regex, errorMessage) {
+function validateInput(input, regex, errorMessage) {
   input.addEventListener("input", function () {
     const isValid = regex.test(input.value);
     input.parentElement.setAttribute("data-error", isValid ? "" : errorMessage);
     input.parentElement.setAttribute("data-error-visible", !isValid);
-  })
+  });
 }
+
 
 
 /**
@@ -145,8 +146,6 @@ const inputContainer = quantityInput.parentElement;
   }
 });
 
-
-
 /**
  *   ########################################################################################
  *       Sélection de la localisation
@@ -191,3 +190,32 @@ form.addEventListener('input', (event) => {
     form.removeAttribute('data-valid');
   }
 });
+
+/**
+ *   ########################################################################################
+ *        Prochains évènements
+ *   ########################################################################################
+ */
+
+
+const eventsCheckbox = document.getElementById('checkbox2');
+const forms = document.getElementById('events');
+
+forms.addEventListener('input', (event) => {
+
+  eventsCheckbox.checked ?
+    forms.setAttribute('data-error-visible', 'true') :
+
+    forms.setAttribute('data-error-visible', 'false'),
+    forms.setAttribute('data-valid', 'Vous serez prévenu des prochains évènements !')
+
+});
+
+
+
+
+
+
+
+
+
