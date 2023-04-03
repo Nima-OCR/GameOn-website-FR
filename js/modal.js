@@ -198,24 +198,29 @@ form.addEventListener('input', (event) => {
  */
 
 
+/**
+ * Récupère la case à cocher pour les Prochains évènements
+ * @type {HTMLInputElement}
+ */
 const eventsCheckbox = document.getElementById('checkbox2');
-const forms = document.getElementById('events');
 
-forms.addEventListener('input', (event) => {
+/**
+ * Récupère l'élément HTML du DOM avec l'identifiant 'events' & l'affecte à la variable upcomingEvents.
+ * @type {HTMLFormElement}
+ */
+const upcomingEvents = document.getElementById('events');
 
+/**
+ * Ajoute un écouteur d'événements pour les prochains événements
+ * @param {Event} event - L'événement déclencheur
+ */
+upcomingEvents.addEventListener('input', (event) => {
+  // Vérifie si la case à cocher pour les événements est cochée
+  // Si oui, affiche un message
+  // Sinon, cache le message et n\' affiche aucun message
   eventsCheckbox.checked ?
-    forms.setAttribute('data-error-visible', 'true') :
-
-    forms.setAttribute('data-error-visible', 'false'),
-    forms.setAttribute('data-valid', 'Vous serez prévenu des prochains évènements !')
-
+    upcomingEvents.setAttribute('data-error-visible', 'true') :
+    upcomingEvents.setAttribute('data-error-visible', 'false');
+  upcomingEvents.setAttribute('data-valid', 'Vous serez prévenu des prochains évènements !');
 });
-
-
-
-
-
-
-
-
 
