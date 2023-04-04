@@ -76,6 +76,13 @@ function validateInput(input, regex, errorMessage) {
     const isValid = regex.test(input.value);
     input.parentElement.setAttribute("data-error", isValid ? "" : errorMessage);
     input.parentElement.setAttribute("data-error-visible", !isValid);
+
+  //   test
+    if(isValid){
+      console.log("Les contraintes sont bien respectées");
+    }else{
+      console.log("Attention, merci de respecter les contraintes")
+    }
   });
 }
 
@@ -108,6 +115,13 @@ function validateBirthdate(input, errorMessage) {
     const isValid = inputDate < currentDate && inputDate >= minBirthYear;
     input.parentElement.setAttribute("data-error", isValid ? "" : errorMessage);
     input.parentElement.setAttribute("data-error-visible", !isValid);
+
+    // TESTS
+    if (isValid){
+      console.log("La date saisi est correcte");
+    }else{
+      console.log("Attention, La date saisi n'est pas correcte");
+    }
   });
 }
 
@@ -118,33 +132,43 @@ function validateBirthdate(input, errorMessage) {
  */
 
 /**
- * Récupère l'élément HTML correspondant à l'input de quantité de tournois GameOn.
- * @type {HTMLInputElement}
- */
-const quantityInput = document.getElementById('quantity');
-
-/**
- * Récupère l'élément parent de l'input quantity, qui contient les données du formulaire.
- * @type {HTMLElement}
- */
-const inputContainer = quantityInput.parentElement;
-
-/**
  * Ajoute un écouteur d'événement à l'input de quantité de tournois.
  * Affiche ou masque le message d'erreur en fonction de la validité de la valeur saisie.
+ * @param {HTMLInputElement} input - L'élément input de quantité de tournois.
  */
-  quantityInput.addEventListener('blur', function () {
+// La fonction sert à ajouter un écouteur d'événement sur l'élément input de quantité de tournois.
+function addQuantityInputListener(input) {
+    const inputContainer = input.parentElement;
+    let isFormValid = false; // Initialisation du boolean à false
 
-  if (!quantityInput.value ||  quantityInput.value < 0 ) {
-    inputContainer.setAttribute('data-error', 'Veuillez saisir un nombre valide de tournois compris entre 0 et 99');
-    inputContainer.setAttribute('data-error-visible', 'true');
+    input.addEventListener('blur', function () {
+        if (!input.value || input.value < 0 || input.value > 99) {
+            inputContainer.setAttribute('data-error', 'Attention ' + input.value + ' est invalide, entrez un nombre compris entre 0 et 99');
+            inputContainer.setAttribute('data-error-visible', 'true');
+            isFormValid = false; // Mise à false du boolean si il y a une erreur
+            console.log("Mauvais nombre: " + input.value);
+        } else {
+            inputContainer.setAttribute('data-error-visible', 'false');
+            isFormValid = true; // Mise à true du boolean si tout est bon
+            console.log("nb de tournois valide: " + input.value);
+        }
+    });
 
-    console.log("Mauvais nombre: " + quantityInput.value);
-  } else {
-    inputContainer.setAttribute('data-error-visible', 'false');
-    console.log("nb de tournois valide: " + quantityInput.value);
-  }
-});
+    // Ajout d'une fonction pour récupérer la valeur du boolean 'isFormValid'
+    function getIsFormValid() {
+        return isFormValid;
+    }
+
+    // Retourne l'objet contenant les fonctions
+    return {
+        getIsFormValid
+    };
+}
+
+// Récupère l'élément input de quantité de tournois et ajoute l'écouteur d'événement
+const quantityInput = document.getElementById('quantity');
+const quantityInputListener = addQuantityInputListener(quantityInput);
+
 
 /**
  *   ########################################################################################
@@ -158,6 +182,7 @@ const inputContainer = quantityInput.parentElement;
  */
 const radioButtons = document.querySelectorAll('input[type="radio"][name="location"]');
 
+
 /**
  * Ajoute un gestionnaire d'événement click à chaque bouton radio pour récupérer la valeur sélectionnée
  * @param {HTMLInputElement}
@@ -165,6 +190,12 @@ const radioButtons = document.querySelectorAll('input[type="radio"][name="locati
 radioButtons.forEach((button) => {
   button.addEventListener('click', () => {
     const selectedValue = document.querySelector('input[name="location"]:checked').value;
+
+    if(selectedValue){
+      console.log("Un tournoi a bien été choisi");
+    }else{
+      console.log("Vous devez sélectionner au moins un tournoi");
+    }
   });
 });
 
@@ -184,10 +215,14 @@ form.addEventListener('input', (event) => {
   if (checkbox.checked) {
     form.setAttribute('data-error-visible', 'true');
     form.setAttribute('data-valid', 'Vous avez bien accepté les conditions d\'utilisation');
+
+    console.log("La Case a bien été cochée");
   } else {
     form.setAttribute('data-error-visible', 'true');
     form.setAttribute('data-error', 'Veuillez accepter les conditions d\'utilisation');
     form.removeAttribute('data-valid');
+
+    console.log("La Case n'est plus cochée !!!");
   }
 });
 
@@ -219,6 +254,13 @@ function upcomingEventsMessage() {
     upcomingEvents.setAttribute('data-error-visible', 'true') :
     upcomingEvents.setAttribute('data-error-visible', 'false');
   upcomingEvents.setAttribute('data-valid', 'Vous serez prévenu des prochains évènements !');
+
+  // TESTS
+  if(eventsCheckbox.checked){
+    console.log("je veux être prévenu");
+  }else {
+    console.log("je ne veux plus être prévenu !!!");
+  }
 }
 
 /**
