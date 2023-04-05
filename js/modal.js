@@ -130,44 +130,29 @@ function validateBirthdate(input, errorMessage) {
  *       Quantité De Tournois
  *   ########################################################################################
  */
+const errorMessage = 'Attention, veuillez entrer un nombre compris entre 0 et 99.';
 
-/**
- * Ajoute un écouteur d'événement à l'input de quantité de tournois.
- * Affiche ou masque le message d'erreur en fonction de la validité de la valeur saisie.
- * @param {HTMLInputElement} input - L'élément input de quantité de tournois.
- */
-// La fonction sert à ajouter un écouteur d'événement sur l'élément input de quantité de tournois.
-function addQuantityInputListener(input) {
-    const inputContainer = input.parentElement;
-    let isFormValid = false; // Initialisation du boolean à false
+function addQuantityInput(input) {
+  let isQuantityInputValid = false;
 
-    input.addEventListener('blur', function () {
-        if (!input.value || input.value < 0 || input.value > 99) {
-            inputContainer.setAttribute('data-error', 'Attention ' + input.value + ' est invalide, entrez un nombre compris entre 0 et 99');
-            inputContainer.setAttribute('data-error-visible', 'true');
-            isFormValid = false; // Mise à false du boolean si il y a une erreur
-            console.log("Mauvais nombre: " + input.value);
-        } else {
-            inputContainer.setAttribute('data-error-visible', 'false');
-            isFormValid = true; // Mise à true du boolean si tout est bon
-            console.log("nb de tournois valide: " + input.value);
-        }
-    });
-
-    // Ajout d'une fonction pour récupérer la valeur du boolean 'isFormValid'
-    function getIsFormValid() {
-        return isFormValid;
+  input.addEventListener('blur', function () {
+    if (!input.value || input.value < 0 || input.value > 99) {
+      showError(input, errorMessage);
+      isQuantityInputValid = false;
+      console.log("Mauvais nombre: " + input.value);
+    } else {
+      hideError(input);
+      isQuantityInputValid = true;
+      console.log("nb de tournois valide: " + input.value);
     }
+  });
 
-    // Retourne l'objet contenant les fonctions
-    return {
-        getIsFormValid
-    };
+  return {
+    isQuantityInputValid() {
+      return isQuantityInputValid;
+    }
+  };
 }
-
-// Récupère l'élément input de quantité de tournois et ajoute l'écouteur d'événement
-const quantityInput = document.getElementById('quantity');
-const quantityInputListener = addQuantityInputListener(quantityInput);
 
 
 /**
@@ -268,3 +253,48 @@ function upcomingEventsMessage() {
  * en appelant la fonction upcomingEventsMessage lors de la détection de l'événement.
  */
 upcomingEvents.addEventListener('input', upcomingEventsMessage);
+
+
+/**
+ *   ########################################################################################
+ *       Fonctions Messages d'erreur
+ *   ########################################################################################
+ */
+
+
+function showError(input, errorMessage) {
+  const inputContainer = input.parentElement;
+  inputContainer.setAttribute('data-error', errorMessage);
+  inputContainer.setAttribute('data-error-visible', 'true');
+}
+
+function hideError(input) {
+  const inputContainer = input.parentElement;
+  inputContainer.setAttribute('data-error-visible', 'false');
+}
+
+
+
+/**
+ *   ########################################################################################
+ *       Validation du formulaire
+ *   ########################################################################################
+ */
+
+// Récupère l'élément input de quantité de tournois et ajoute l'écouteur d'événement
+const quantityInput = document.getElementById('quantity');
+const quantityInputListener = addQuantityInput(quantityInput);
+
+// Récupère le bouton de soumission du formulaire
+const submitButton = document.getElementById('submitButton');
+
+// Ajoute un gestionnaire d'événement click au bouton de soumission
+submitButton.addEventListener('click', function(event) {
+  // Vérifie si la valeur est valide avant d'envoyer le formulaire
+  if (quantityInputListener.isQuantityInputValid()) {
+    console.log("Envoi du formulaire");
+  } else {
+    event.preventDefault(); // Annule l'événement de soumission du formulaire
+    showError(quantityInput, errorMessage);
+  }
+});
