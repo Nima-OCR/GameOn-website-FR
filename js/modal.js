@@ -161,26 +161,48 @@ const locationErrorMessage = 'Vous devez sélectionner une localisation';
  *   ########################################################################################
  */
 /**
- * Permet de sélectionner tous les boutons de radio sur la page qui ont un attribut name égal à "location"
+
+ Récupère les boutons radios qui ont pour attribut "location"
+ @type {HTMLInputElement}
  */
-const radioButtons = document.querySelectorAll('input[type="radio"][name="location"]');
-
-
+const locationRadios = document.querySelectorAll('[name="location"]');
 /**
- * Ajoute un gestionnaire d'événement click à chaque bouton radio pour récupérer la valeur sélectionnée
- * @param {HTMLInputElement}
- */
-radioButtons.forEach((button) => {
-  button.addEventListener('click', () => {
-    const selectedValue = document.querySelector('input[name="location"]:checked').value;
 
-    if(selectedValue){
-      console.log("Un tournoi a bien été choisi");
-    }else{
-      console.log("Vous devez sélectionner au moins un tournoi");
-    }
+ Ajoute un événement "change" à chaque bouton radio récupéré, qui déclenche la fonction isLocationValid()
+ @param {Event} event - L'événement change déclenché par le clic sur un bouton radio
+ */
+locationRadios.forEach((locationRadio) => {
+  locationRadio.addEventListener('change', function(event) {
+    isLocationValid();
   });
 });
+/**
+
+ Vérifie si un tournoi a été sélectionné en parcourant tous les boutons radios
+ @returns {boolean} - True si un bouton radio a été sélectionné, sinon false
+ */
+function isLocationValid() {
+  let isValid = false;
+  let selectedLocation = "";
+  for (let i = 0; i < locationRadios.length; i++) {
+    if (locationRadios[i].checked) {
+      isValid = true;
+      selectedLocation = locationRadios[i].value;
+      break;
+    }
+  }
+
+  if (isValid) {
+    hideError(locationRadios[0]);
+    console.log("Un tournoi a bien été choisi => " + selectedLocation);
+
+  } else {
+    showError(locationRadios[0], 'Veuillez sélectionner une option de localisation.');
+    console.log("Vous devez sélectionner au moins un tournoi");
+
+  }
+  return isValid;
+}
 
 /**
  *   ########################################################################################
@@ -292,11 +314,14 @@ submitButton.addEventListener('click', function(event) {
 
     quantityInputListener.isQuantityInputValid()
     && isBirthdateValid
+    && isLocationValid()
+
   ) {
     console.log("Envoi du formulaire");
   } else {
     event.preventDefault(); // Annule l'événement de soumission du formulaire
     showError(quantityInput, errorMessage);
     showError(birthdateInput, birthdateErrorMessage);
+    isLocationValid();
   }
 });
