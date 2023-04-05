@@ -94,33 +94,31 @@ function validateInput(input, regex, errorMessage) {
  *   ########################################################################################
  */
 const birthdateInput = document.getElementById('birthdate');
+const birthdateErrorMessage = "La date n'est pas valide";
+let isBirthdateValid = false;
 
-validateBirthdate(birthdateInput, "La date n'est pas valide");
+validateBirthdate(birthdateInput);
 
 /**
- * Valide l'entrée de la date de naissance en vérifiant si elle est inférieure à la date actuelle
- * et supérieure ou égale à l'année de naissance minimale (1950).
- * Si l'entrée n'est pas valide, un message d'erreur s'affiche.
- *
+ * Valide l'entrée de la date de naissance en vérifiant les contraintes
  * @function
  * @name validateBirthdate
- * @param {HTMLInputElement} input - L'élément d'entrée contenant la date de naissance à valider.
- * @param {string} errorMessage - Le message d'erreur à afficher si l'entrée n'est pas valide.
+ * @param {HTMLInputElement} input - L'élément contenant la date de naissance à valider.
  */
-function validateBirthdate(input, errorMessage) {
+function validateBirthdate(input) {
+  const inputDate = new Date(input.value);
+  const currentDate = new Date();
+  const minBirthYear = 1950;
+  isBirthdateValid = inputDate < currentDate && inputDate.getFullYear() >= minBirthYear;
+
   input.addEventListener("input", function () {
     const inputDate = new Date(input.value);
     const currentDate = new Date();
-    const minBirthYear = 1900;
-    const isValid = inputDate < currentDate && inputDate >= minBirthYear;
-    input.parentElement.setAttribute("data-error", isValid ? "" : errorMessage);
-    input.parentElement.setAttribute("data-error-visible", !isValid);
+    isBirthdateValid = inputDate < currentDate && inputDate.getFullYear() >= minBirthYear;
 
-    // TESTS
-    if (isValid){
-      console.log("La date saisi est correcte");
-    }else{
-      console.log("Attention, La date saisi n'est pas correcte");
+    hideError(input);
+    if (!isBirthdateValid) {
+      showError(input, birthdateErrorMessage);
     }
   });
 }
@@ -291,10 +289,17 @@ const submitButton = document.getElementById('submitButton');
 // Ajoute un gestionnaire d'événement click au bouton de soumission
 submitButton.addEventListener('click', function(event) {
   // Vérifie si la valeur est valide avant d'envoyer le formulaire
-  if (quantityInputListener.isQuantityInputValid()) {
+  if (
+
+    quantityInputListener.isQuantityInputValid()
+    && isBirthdateValid
+
+
+  ) {
     console.log("Envoi du formulaire");
   } else {
     event.preventDefault(); // Annule l'événement de soumission du formulaire
     showError(quantityInput, errorMessage);
+    showError(birthdateInput, birthdateErrorMessage);
   }
 });
