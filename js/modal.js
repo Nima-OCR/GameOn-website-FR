@@ -153,13 +153,13 @@ function addQuantityInput(input) {
 }
 
 
+const locationErrorMessage = 'Vous devez sélectionner une localisation';
+
 /**
  *   ########################################################################################
  *       Sélection de la localisation
  *   ########################################################################################
  */
-
-
 /**
  * Permet de sélectionner tous les boutons de radio sur la page qui ont un attribut name égal à "location"
  */
@@ -181,7 +181,6 @@ radioButtons.forEach((button) => {
     }
   });
 });
-
 
 /**
  *   ########################################################################################
@@ -293,8 +292,6 @@ submitButton.addEventListener('click', function(event) {
 
     quantityInputListener.isQuantityInputValid()
     && isBirthdateValid
-
-
   ) {
     console.log("Envoi du formulaire");
   } else {
