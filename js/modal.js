@@ -74,17 +74,19 @@ validateInput(emailInput, /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/, "L
 function validateInput(input, regex, errorMessage) {
   input.addEventListener("input", function () {
     const isValid = regex.test(input.value);
-    input.parentElement.setAttribute("data-error", isValid ? "" : errorMessage);
-    input.parentElement.setAttribute("data-error-visible", !isValid);
-
-  //   test
-    if(isValid){
+    if (isValid) {
+      hideError(input);
       console.log("Les contraintes sont bien respectées");
-    }else{
+
+    } else {
+      showError(input, errorMessage);
       console.log("Attention, merci de respecter les contraintes")
+
     }
   });
 }
+
+
 
 
 
@@ -215,20 +217,22 @@ function isLocationValid() {
 const checkbox = document.getElementById('checkbox1');
 const form = document.getElementById('conditions');
 
-form.addEventListener('input', (event) => {
-  if (checkbox.checked) {
-    form.setAttribute('data-error-visible', 'true');
-    form.setAttribute('data-valid', 'Vous avez bien accepté les conditions d\'utilisation');
-
-    console.log("La Case a bien été cochée");
-  } else {
-    form.setAttribute('data-error-visible', 'true');
-    form.setAttribute('data-error', 'Veuillez accepter les conditions d\'utilisation');
+function isCheckboxChecked() {
+  if (checkbox.checked === false) {
+    showError(checkbox, 'Veuillez accepter les conditions d\'utilisation.');
     form.removeAttribute('data-valid');
 
     console.log("La Case n'est plus cochée !!!");
+
+    return false;
+  } else {
+    hideError(checkbox);
+    form.setAttribute('data-valid', 'Vous avez bien accepté les conditions d\'utilisation');
+    console.log("La Case a bien été cochée");
+    return true;
   }
-});
+}
+
 
 /**
  *   ########################################################################################
@@ -309,19 +313,57 @@ const submitButton = document.getElementById('submitButton');
 
 // Ajoute un gestionnaire d'événement click au bouton de soumission
 submitButton.addEventListener('click', function(event) {
+
+  const firstNameValid = /^\s*(?=.*[a-zA-Zéèàùç])[a-zA-Zéèàùç]{2,}\s*$/.test(firstNameInput.value);
+  const lastNameValid = /^\s*(?=.*[a-zA-Zéèàùç])[a-zA-Zéèàùç]{2,}\s*$/.test(lastNameInput.value);
+  const emailValid = /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/.test(emailInput.value);
+
   // Vérifie si la valeur est valide avant d'envoyer le formulaire
   if (
 
     quantityInputListener.isQuantityInputValid()
     && isBirthdateValid
     && isLocationValid()
-
+    && isCheckboxChecked()
+    && firstNameValid
+    && lastNameValid
+    && emailValid
   ) {
     console.log("Envoi du formulaire");
   } else {
     event.preventDefault(); // Annule l'événement de soumission du formulaire
-    showError(quantityInput, errorMessage);
-    showError(birthdateInput, birthdateErrorMessage);
+
+    if (!quantityInputListener.isQuantityInputValid()) {
+      showError(quantityInput, errorMessage);
+    } else {
+      hideError(quantityInput);
+    }
+
+    if (!isBirthdateValid) {
+      showError(birthdateInput, birthdateErrorMessage);
+    } else {
+      hideError(birthdateInput);
+    }
+
     isLocationValid();
+    isCheckboxChecked();
+
+    if (!firstNameValid) {
+      showError(firstNameInput, "Le prénom doit comporter au moins 2 lettres");
+    } else {
+      hideError(firstNameInput);
+    }
+
+    if (!lastNameValid) {
+      showError(lastNameInput, "Le nom doit comporter au moins 2 lettres");
+    } else {
+      hideError(lastNameInput);
+    }
+
+    if (!emailValid) {
+      showError(emailInput, "L'email n'est pas valide");
+    } else {
+      hideError(emailInput);
+    }
   }
 });
