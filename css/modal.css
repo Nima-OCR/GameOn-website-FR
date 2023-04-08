@@ -14,7 +14,7 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  background-image: url("background.png");
+  /*background-image: url("background.png");*/
   font-family: var(--font-default);
   font-size: 18px;
   max-width: 1300px;
@@ -168,7 +168,6 @@ main {
   overflow: auto;
   background-color: rgba(26, 39, 156, 0.4);
 }
-
 .content {
   margin: 5% auto;
   width: 100%;
@@ -528,6 +527,26 @@ footer {
     margin-top: 50px;
     text-align: center;
   }
+
+  .confirmation-message {
+    min-width: 536px;
+    min-height: 850px;
+    text-align: center !important;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    /* Autres styles */
+  }
+
+
+  .hidden {
+    display: none;
+  }
+
+
+
+
+
+
 }
 
 @keyframes modalopen {

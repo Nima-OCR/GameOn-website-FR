@@ -318,6 +318,8 @@ submitButton.addEventListener('click', function(event) {
   const lastNameValid = /^\s*(?=.*[a-zA-Zéèàùç])[a-zA-Zéèàùç]{2,}\s*$/.test(lastNameInput.value);
   const emailValid = /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/.test(emailInput.value);
 
+
+
   // Vérifie si la valeur est valide avant d'envoyer le formulaire
   if (
 
@@ -329,7 +331,7 @@ submitButton.addEventListener('click', function(event) {
     && lastNameValid
     && emailValid
   ) {
-    console.log("Envoi du formulaire");
+    console.log("Formulaire Envoyé !!!");
   } else {
     event.preventDefault(); // Annule l'événement de soumission du formulaire
 
@@ -365,5 +367,74 @@ submitButton.addEventListener('click', function(event) {
     } else {
       hideError(emailInput);
     }
+
   }
+
 });
+
+
+// Récupération des éléments HTML à modifier
+const registrationForm = document.getElementById('form');
+const formDataDivs = document.querySelectorAll('.formData');
+const paragraphe = document.querySelector('.text-label');
+const closeButton = document.querySelector('.close');
+const modalButton = document.querySelector('.modal-btn');
+// const submitBtn = document.getElementById('submitButton');
+
+// Fonction pour réinitialiser les éléments
+function resetForm() {
+  registrationForm.reset(); // Réinitialiser les valeurs du formulaire
+
+  const formControls = registrationForm.querySelectorAll('input, select, textarea'); // Sélectionner tous les contrôles de formulaire
+
+  formControls.forEach(control => { // Boucler à travers les contrôles et supprimer les attributs 'data-*'
+    control.removeAttribute('data-error');
+    control.removeAttribute('data-error-visible');
+    control.removeAttribute('data-valid');
+  });
+
+  formDataDivs.forEach(div => { // Réinitialiser les messages d'erreur et afficher les champs de formulaire
+    div.style.display = 'block';
+    div.removeAttribute('data-error');
+    div.removeAttribute('data-error-visible');
+    div.removeAttribute('data-valid');
+  });
+
+  paragraphe.innerText = ""; // Réinitialiser le texte du paragraphe
+  paragraphe.style.cssText = ""; // Réinitialiser les styles du paragraphe
+  submitButton.value = "C'est parti"; // Réinitialiser la valeur du bouton de soumission
+}
+
+
+
+
+
+// Fonction pour fermer la modale et réinitialiser le formulaire
+function closeModalFunction() {
+  modalbg.style.display = "none";
+  resetForm();
+}
+
+// Gestionnaires d'événements
+closeButton.addEventListener('click', closeModalFunction);
+
+// modalButton.addEventListener('click', function () {
+//   resetForm();
+// });
+
+registrationForm.addEventListener('submit', function(event) {
+  event.preventDefault();
+  formDataDivs.forEach(div => div.style.display = 'none');
+  paragraphe.innerText = "Merci pour\nvotre inscription";
+  paragraphe.style.margin = '15rem auto';
+  paragraphe.style.fontSize = '36px';
+  paragraphe.style.textAlign = 'center';
+  submitButton.value = 'Fermer';
+  // document.querySelector(".btn-submit").addEventListener("submit", closeModalFunction);
+  document.querySelector(".btn-submit").removeEventListener("submit", closeModalFunction);
+
+});
+
+
+
+
