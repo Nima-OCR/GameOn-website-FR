@@ -39,6 +39,7 @@ const closeFunction = () => {
 closeModal.addEventListener("click", closeFunction);
 
 
+
 /**
  *   #############################################################################################
  *       Le champ Prénom & Nom a un minimum de 2 caractères / n'est pas vide / Validation Email
@@ -115,6 +116,7 @@ function validateBirthdate(input) {
 
   input.addEventListener("input", function () {
     const inputDate = new Date(input.value);
+    console.log("La date entrée est :", inputDate);
     const currentDate = new Date();
     isBirthdateValid = inputDate < currentDate && inputDate.getFullYear() >= minBirthYear;
 
@@ -200,7 +202,7 @@ function isLocationValid() {
 
   } else {
     showError(locationRadios[0], 'Veuillez sélectionner une option de localisation.');
-    console.log("Vous devez sélectionner au moins un tournoi");
+    // console.log("Vous devez sélectionner au moins un tournoi");
 
   }
   return isValid;
@@ -217,12 +219,16 @@ function isLocationValid() {
 const checkbox = document.getElementById('checkbox1');
 const form = document.getElementById('conditions');
 
+checkbox.addEventListener('change', function() {
+  isCheckboxChecked();
+});
+
 function isCheckboxChecked() {
   if (checkbox.checked === false) {
     showError(checkbox, 'Veuillez accepter les conditions d\'utilisation.');
     form.removeAttribute('data-valid');
 
-    console.log("La Case n'est plus cochée !!!");
+    // console.log("La Case n'est plus cochée !!!");
 
     return false;
   } else {
@@ -232,6 +238,7 @@ function isCheckboxChecked() {
     return true;
   }
 }
+
 
 
 /**
@@ -265,9 +272,9 @@ function upcomingEventsMessage() {
 
   // TESTS
   if(eventsCheckbox.checked){
-    console.log("je veux être prévenu");
+    console.log("Je Je souhaite être prévenu des prochains évènements.");
   }else {
-    console.log("je ne veux plus être prévenu !!!");
+    console.log("Désolé mais je ne souhaite plus être prévenu des prochains évènements !!!");
   }
 }
 
@@ -307,22 +314,32 @@ function hideError(input) {
 // Récupère l'élément input de quantité de tournois et ajoute l'écouteur d'événement
 const quantityInput = document.getElementById('quantity');
 const quantityInputListener = addQuantityInput(quantityInput);
-
+const registrationForm = document.getElementById('form');
+const successModal = document.getElementById('successModal');
 // Récupère le bouton de soumission du formulaire
 const submitButton = document.getElementById('submitButton');
 
-// Ajoute un gestionnaire d'événement click au bouton de soumission
-submitButton.addEventListener('click', function(event) {
+// Récupère le bouton de fermeture de la modal
+const closeModalButton = document.getElementById('closeModal');
+successModal.style.display = 'none';
 
+
+// Ajoute un gestionnaire d'événement de clic au bouton de fermeture de la modal
+closeModalButton.addEventListener('click', function() {
+  successModal.style.display = 'none';
+});
+
+let isFormSubmittedSuccess = false;
+
+
+// Ajoute un gestionnaire d'événement click au bouton de soumission
+registrationForm.addEventListener('submit', function(event)  {
+  // event.preventDefault();
   const firstNameValid = /^\s*(?=.*[a-zA-Zéèàùç])[a-zA-Zéèàùç]{2,}\s*$/.test(firstNameInput.value);
   const lastNameValid = /^\s*(?=.*[a-zA-Zéèàùç])[a-zA-Zéèàùç]{2,}\s*$/.test(lastNameInput.value);
   const emailValid = /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/.test(emailInput.value);
-
-
-
   // Vérifie si la valeur est valide avant d'envoyer le formulaire
   if (
-
     quantityInputListener.isQuantityInputValid()
     && isBirthdateValid
     && isLocationValid()
@@ -331,9 +348,17 @@ submitButton.addEventListener('click', function(event) {
     && lastNameValid
     && emailValid
   ) {
-    console.log("Formulaire Envoyé !!!");
+
+    console.log("Votre formulaire a été soumis avec succès!");
+// Si toutes les validations sont correctes, affiche la modal de succès
+    isFormSubmittedSuccess = true;
+    if (isFormSubmittedSuccess) {
+      successModal.style.display = 'block';
+    }
+    registrationForm.style.display = 'none';
   } else {
     event.preventDefault(); // Annule l'événement de soumission du formulaire
+    console.log('Le formulaire doit être rempli en respectant les contraintes avant d\'être soumis.');
 
     if (!quantityInputListener.isQuantityInputValid()) {
       showError(quantityInput, errorMessage);
@@ -369,72 +394,11 @@ submitButton.addEventListener('click', function(event) {
     }
 
   }
-
 });
 
-
-// Récupération des éléments HTML à modifier
-const registrationForm = document.getElementById('form');
-const formDataDivs = document.querySelectorAll('.formData');
-const paragraphe = document.querySelector('.text-label');
-const closeButton = document.querySelector('.close');
-const modalButton = document.querySelector('.modal-btn');
-// const submitBtn = document.getElementById('submitButton');
-
-// Fonction pour réinitialiser les éléments
-function resetForm() {
-  registrationForm.reset(); // Réinitialiser les valeurs du formulaire
-
-  const formControls = registrationForm.querySelectorAll('input, select, textarea'); // Sélectionner tous les contrôles de formulaire
-
-  formControls.forEach(control => { // Boucler à travers les contrôles et supprimer les attributs 'data-*'
-    control.removeAttribute('data-error');
-    control.removeAttribute('data-error-visible');
-    control.removeAttribute('data-valid');
-  });
-
-  formDataDivs.forEach(div => { // Réinitialiser les messages d'erreur et afficher les champs de formulaire
-    div.style.display = 'block';
-    div.removeAttribute('data-error');
-    div.removeAttribute('data-error-visible');
-    div.removeAttribute('data-valid');
-  });
-
-  paragraphe.innerText = ""; // Réinitialiser le texte du paragraphe
-  paragraphe.style.cssText = ""; // Réinitialiser les styles du paragraphe
-  submitButton.value = "C'est parti"; // Réinitialiser la valeur du bouton de soumission
-}
-
-
-
-
-
-// Fonction pour fermer la modale et réinitialiser le formulaire
-function closeModalFunction() {
-  modalbg.style.display = "none";
-  resetForm();
-}
-
-// Gestionnaires d'événements
-closeButton.addEventListener('click', closeModalFunction);
-
-// modalButton.addEventListener('click', function () {
-//   resetForm();
-// });
-
-registrationForm.addEventListener('submit', function(event) {
-  event.preventDefault();
-  formDataDivs.forEach(div => div.style.display = 'none');
-  paragraphe.innerText = "Merci pour\nvotre inscription";
-  paragraphe.style.margin = '15rem auto';
-  paragraphe.style.fontSize = '36px';
-  paragraphe.style.textAlign = 'center';
-  submitButton.value = 'Fermer';
-  // document.querySelector(".btn-submit").addEventListener("submit", closeModalFunction);
-  document.querySelector(".btn-submit").removeEventListener("submit", closeModalFunction);
-
+// Ajoute un gestionnaire d'é événement click au bouton de fermeture de la modal
+closeModalButton.addEventListener('click', function() {
+  successModal.style.display = 'none';
 });
-
-
 
 
