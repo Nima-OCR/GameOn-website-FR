@@ -2,7 +2,6 @@
   --font-default: "DM Sans", Arial, Helvetica, sans-serif;
   --font-slab: var(--font-default);
   --modal-duration: 0.8s;
-  --modal-duration: 0.8s;
 }
 * {
   box-sizing: border-box;
@@ -191,7 +190,7 @@ main {
 
 label {
   font-family: var(--font-default);
-  font-size: 17px;
+  font-size: 14px;
   font-weight: normal;
   display: inline-block;
   margin-bottom: 11px;
@@ -524,32 +523,16 @@ footer {
     border-radius: 10px;
     margin-top: 40px;
   }
-
+  .hero-section > .btn-signup {
+        display: block;
+        margin: 32px auto 10px;
+        padding: 12px 35px;
+    }
   .copyrights {
     margin-top: 50px;
     text-align: center;
   }
 
-  .confirmation-message {
-    min-width: 536px;
-    min-height: 850px;
-    text-align: center !important;
-    margin-top: 5rem;
-    margin-bottom: 5rem;
-    /* Autres styles */
-  }
-
-
-  .hidden {
-    display: none;
-  }
-
-
-
-
-
-
-}
 
 @keyframes modalopen {
   from {
@@ -562,12 +545,25 @@ footer {
 }
 
 
+ .confirmation-message {
+    min-width: 536px;
+    min-height: 850px;
+    text-align: center !important;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    /* Autres styles */
+  }
 
+
+  .hidden {
+    display: none;
+  }
+}
 
 
 
 .bgroundMessage {
-  display: block;
+  display: none;
   position: fixed;
   z-index: 1;
   left: 0;
@@ -620,27 +616,4 @@ footer {
   color: black;
   text-decoration: none;
   cursor: pointer;
-}
-
-
-
-/*Media Queries*/
-
-
-@media screen and (max-width: 830px) {
-  .hero-section>.modal-btn {
-    display: block;
-    margin: 30px auto;
-  }
-
-  .hero-headline {
-    font-size: 4rem;
-  }
-  .hero-text {
-    width: 100%;
-  }
-
-  .topnav a {
-    font-size: 18px;
-  }
 }

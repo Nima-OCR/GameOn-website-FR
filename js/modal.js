@@ -10,10 +10,21 @@ function editNav() {
 // DOM Elements
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
+const form = document.querySelector('form');
 const formData = document.querySelectorAll(".formData");
 
 // launch modal event
-modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
+// modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
+
+
+modalBtn.forEach((btn) => btn.addEventListener("click", function() {
+  form.reset();
+  console.log("Formulaire réinitialisé !");
+  launchModal();
+  console.log("Lancement du formulaire d'inscription");
+}));
+
+
 
 // launch modal form
 function launchModal() {
@@ -77,11 +88,15 @@ function validateInput(input, regex, errorMessage) {
     const isValid = regex.test(input.value);
     if (isValid) {
       hideError(input);
-      console.log("Les contraintes sont bien respectées");
+      console.log(input.id + ": " + input.value);
+
+      return true;
 
     } else {
       showError(input, errorMessage);
-      console.log("Attention, merci de respecter les contraintes")
+      console.log(input.id + ": " + input.value + errorMessage);
+
+      return  false;
 
     }
   });
@@ -123,6 +138,8 @@ function validateBirthdate(input) {
     hideError(input);
     if (!isBirthdateValid) {
       showError(input, birthdateErrorMessage);
+      console.log(birthdateErrorMessage);
+
     }
   });
 }
@@ -141,11 +158,16 @@ function addQuantityInput(input) {
     if (!input.value || input.value < 0 || input.value > 99) {
       showError(input, errorMessage);
       isQuantityInputValid = false;
-      console.log("Mauvais nombre: " + input.value);
+      console.log("Nombre saisi: " + input.value + " => veuillez entrer un nombre compris entre 0 et 99");
+
+      // return false;
     } else {
       hideError(input);
       isQuantityInputValid = true;
-      console.log("nb de tournois valide: " + input.value);
+      console.log("Le Nombre de tournois est valide => "  + input.value);
+
+      // return true;
+
     }
   });
 
@@ -200,12 +222,15 @@ function isLocationValid() {
     hideError(locationRadios[0]);
     console.log("Un tournoi a bien été choisi => " + selectedLocation);
 
+    return true;
+
   } else {
     showError(locationRadios[0], 'Veuillez sélectionner une option de localisation.');
-    // console.log("Vous devez sélectionner au moins un tournoi");
+
+    return false;
 
   }
-  return isValid;
+  // return isValid;
 }
 
 /**
@@ -217,7 +242,7 @@ function isLocationValid() {
 
 
 const checkbox = document.getElementById('checkbox1');
-const form = document.getElementById('conditions');
+const conditions = document.getElementById('conditions');
 
 checkbox.addEventListener('change', function() {
   isCheckboxChecked();
@@ -226,15 +251,16 @@ checkbox.addEventListener('change', function() {
 function isCheckboxChecked() {
   if (checkbox.checked === false) {
     showError(checkbox, 'Veuillez accepter les conditions d\'utilisation.');
-    form.removeAttribute('data-valid');
+    conditions.removeAttribute('data-valid');
 
-    // console.log("La Case n'est plus cochée !!!");
+    console.log("Veuillez accepter les conditions d'utilisation.");
+
 
     return false;
   } else {
     hideError(checkbox);
-    form.setAttribute('data-valid', 'Vous avez bien accepté les conditions d\'utilisation');
-    console.log("La Case a bien été cochée");
+    conditions.setAttribute('data-valid', 'Vous avez bien accepté les conditions d\'utilisation');
+    console.log("les conditions d'utilisation sont acceptées");
     return true;
   }
 }
@@ -311,22 +337,28 @@ function hideError(input) {
  *   ########################################################################################
  */
 
+function showSubmitModal() {
+  modalbg.style.display = 'none';
+  successModal.style.display = "block";
+}
+
+
 // Récupère l'élément input de quantité de tournois et ajoute l'écouteur d'événement
 const quantityInput = document.getElementById('quantity');
 const quantityInputListener = addQuantityInput(quantityInput);
 const registrationForm = document.getElementById('form');
-const successModal = document.getElementById('successModal');
+const successModal = document.querySelector('.bgroundMessage');
 // Récupère le bouton de soumission du formulaire
 const submitButton = document.getElementById('submitButton');
 
 // Récupère le bouton de fermeture de la modal
 const closeModalButton = document.getElementById('closeModal');
-successModal.style.display = 'none';
 
 
 // Ajoute un gestionnaire d'événement de clic au bouton de fermeture de la modal
 closeModalButton.addEventListener('click', function() {
   successModal.style.display = 'none';
+  console.log("Formulaire réinitialisé !");
 });
 
 let isFormSubmittedSuccess = false;
@@ -334,11 +366,16 @@ let isFormSubmittedSuccess = false;
 
 // Ajoute un gestionnaire d'événement click au bouton de soumission
 registrationForm.addEventListener('submit', function(event)  {
-  // event.preventDefault();
+  event.preventDefault(); // Annule l'événement de soumission du formulaire
+
+
   const firstNameValid = /^\s*(?=.*[a-zA-Zéèàùç])[a-zA-Zéèàùç]{2,}\s*$/.test(firstNameInput.value);
   const lastNameValid = /^\s*(?=.*[a-zA-Zéèàùç])[a-zA-Zéèàùç]{2,}\s*$/.test(lastNameInput.value);
   const emailValid = /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/.test(emailInput.value);
   // Vérifie si la valeur est valide avant d'envoyer le formulaire
+
+
+
   if (
     quantityInputListener.isQuantityInputValid()
     && isBirthdateValid
@@ -348,32 +385,13 @@ registrationForm.addEventListener('submit', function(event)  {
     && lastNameValid
     && emailValid
   ) {
-
     console.log("Votre formulaire a été soumis avec succès!");
-// Si toutes les validations sont correctes, affiche la modal de succès
-    isFormSubmittedSuccess = true;
-    if (isFormSubmittedSuccess) {
-      successModal.style.display = 'block';
-    }
-    registrationForm.style.display = 'none';
+    showSubmitModal()
+    registrationForm.reset();
+
+
   } else {
-    event.preventDefault(); // Annule l'événement de soumission du formulaire
     console.log('Le formulaire doit être rempli en respectant les contraintes avant d\'être soumis.');
-
-    if (!quantityInputListener.isQuantityInputValid()) {
-      showError(quantityInput, errorMessage);
-    } else {
-      hideError(quantityInput);
-    }
-
-    if (!isBirthdateValid) {
-      showError(birthdateInput, birthdateErrorMessage);
-    } else {
-      hideError(birthdateInput);
-    }
-
-    isLocationValid();
-    isCheckboxChecked();
 
     if (!firstNameValid) {
       showError(firstNameInput, "Le prénom doit comporter au moins 2 lettres");
@@ -392,13 +410,19 @@ registrationForm.addEventListener('submit', function(event)  {
     } else {
       hideError(emailInput);
     }
+    if (!isBirthdateValid) {
+      showError(birthdateInput, birthdateErrorMessage);
+    } else {
+      hideError(birthdateInput);
+    }
 
+    if (!quantityInputListener.isQuantityInputValid()) {
+      showError(quantityInput, errorMessage);
+    } else {
+      hideError(quantityInput);
+    }
+
+    isLocationValid();
+    isCheckboxChecked();
   }
 });
-
-// Ajoute un gestionnaire d'é événement click au bouton de fermeture de la modal
-closeModalButton.addEventListener('click', function() {
-  successModal.style.display = 'none';
-});
-
-

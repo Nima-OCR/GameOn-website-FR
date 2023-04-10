@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
   <head>
     <meta charset="utf-8" />
     <title>Reservation</title>
@@ -11,24 +12,26 @@
       rel="stylesheet"
     />
   </head>
+
   <body>
-    <div class="topnav" id="myTopnav">
-      <div class="header-logo">
-      <img alt="logo" src="img/Logo.png" width="auto" height="auto" />
-    </div>
-    <div class="main-navbar">
-      
-      <a href="#" class="active"><span>Accueil</span></a>
-      <a href="#"><span>Détails de l'évènement</span></a>
-      <a href="#"><span>À propos</span></a>
-      <a href="#"><span>Contact</span></a>
-      <a href="#"><span>Évènements passés</span></a>
-      <a href="javascript:void(0);" class="icon" onclick="editNav()">
-        <i class="fa fa-bars"></i>
-      </a>
-    </div>
-    </div>
-  </div>
+    <header>
+      <nav class="topnav" id="myTopnav">
+        <div class="header-logo">
+          <img alt="logo" src="img/Logo.png" width="auto" height="auto" />
+        </div>
+        <div class="main-navbar">
+          <a href="#" class="active"><span>Accueil</span></a>
+          <a href="#"><span>Détails de l'évènement</span></a>
+          <a href="#"><span>À propos</span></a>
+          <a href="#"><span>Contact</span></a>
+          <a href="#"><span>Évènements passés</span></a>
+          <a href="javascript:void(0);" class="icon" onclick="editNav()">
+            <i class="fa fa-bars"></i>
+          </a>
+        </div>
+      </nav>
+    </header>
+
     <main>
       <div class="hero-section">
         <div class="hero-content">
@@ -41,7 +44,7 @@
             aux réservations... Places limitées !
           </p>
           <button class="btn-signup modal-btn">
-            je m'inscris
+            Je M'inscris
           </button>
         </div>
         <div class="hero-img">
@@ -52,13 +55,8 @@
         <div class="content">
           <span class="close"></span>
           <div class="modal-body">
-            <form id="form"
-              name="reserve"
-              action="index.html"
-              method="get"
-            >
-              <div
-                class="formData">
+            <form id="form" name="reserve" action="index.html" method="get">
+              <div class="formData">
                 <label for="first">Prénom</label><br>
                 <input
                   class="text-control"
@@ -88,8 +86,7 @@
                   name="email"
                 /><br>
               </div>
-              <div
-                class="formData">
+              <div class="formData">
                 <label for="birthdate">Date de naissance</label><br>
                 <input
                   class="text-control"
@@ -98,14 +95,12 @@
                   name="birthdate"
                 /><br>
               </div>
-              <div
-                class="formData">
+              <div class="formData">
                 <label for="quantity">À combien de tournois GameOn avez-vous déjà participé ?</label><br>
                 <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
               </div>
               <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
 
-              <h2></h2>
               <div id="checkbox"
                 class="formData">
                 <input
@@ -208,8 +203,6 @@
           </div>
         </div>
       </div>
-
-
 
       <div id="successModal" class="bgroundMessage">
         <div class="content">
