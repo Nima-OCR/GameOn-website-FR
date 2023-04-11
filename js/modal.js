@@ -13,8 +13,7 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const form = document.querySelector('form');
 const formData = document.querySelectorAll(".formData");
 
-// launch modal event
-// modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
+
 
 
 modalBtn.forEach((btn) => btn.addEventListener("click", function() {
@@ -34,7 +33,7 @@ function launchModal() {
 
 /**
  *   ########################################################################################
- *                                      Fermer la modale
+ *                                      Fermeture de la modale
  *   ########################################################################################
  */
 
@@ -44,16 +43,16 @@ const closeModal = document.querySelector(".close");
 //Cette fonction change la propriété "display" de l'élément "modalbg" en "none".
 const closeFunction = () => {
   modalbg.style.display = "none"
+  console.log("Le formulaire a été quité avec [X]");
 }
 
 // Ajoute un événement "click" à l'élément closeModal qui exécutera la fonction closeFunction lorsque l'utilisateur cliquera sur cet élément.
 closeModal.addEventListener("click", closeFunction);
 
 
-
 /**
  *   #############################################################################################
- *       Le champ Prénom & Nom a un minimum de 2 caractères / n'est pas vide / Validation Email
+ *                                Prénom / Nom / Validation Email
  *   #############################################################################################
  */
 
@@ -73,39 +72,36 @@ const emailInput = document.getElementById("email");
  * @param {string} errorMessage - Le message d'erreur à afficher si la saisie ne correspond pas à l'expression régulière.
  */
 
-validateInput(firstNameInput, /^\s*(?=.*[a-zA-Zéèàùç])[a-zA-Zéèàùç]{2,}\s*$/, "Le prénom doit comporter au moins 2 lettres");
-validateInput(lastNameInput, /^\s*(?=.*[a-zA-Zéèàùç])[a-zA-Zéèàùç]{2,}\s*$/, "Le nom doit comporter au moins 2 lettres");
-validateInput(emailInput, /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/, "L'email n'est pas valide");
+validateInput(firstNameInput, /^\s*(?=.*[a-zA-Zéèàùç])[a-zA-Zéèàùç]{2,}\s*$/, " Le prénom doit comporter au moins 2 lettres");
+validateInput(lastNameInput, /^\s*(?=.*[a-zA-Zéèàùç])[a-zA-Zéèàùç]{2,}\s*$/, " Le nom doit comporter au moins 2 lettres");
+validateInput(emailInput, /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/, " L'email n'est pas valide");
 
-
-/**
- * @param {HTMLElement} input - L'élément de champ de saisie HTML à valider.
- * @param {RegExp} regex - L'expression régulière à utiliser pour valider le champ de saisie.
- * @param {string} errorMessage - Le message d'erreur à afficher si la saisie ne correspond pas à l'expression régulière.
- */
 function validateInput(input, regex, errorMessage) {
   input.addEventListener("input", function () {
     const isValid = regex.test(input.value);
     if (isValid) {
       hideError(input);
-      console.log(input.id + ": " + input.value);
+      console.log(input.id + ": " + input.value + " => est valide ✓");
 
       return true;
 
     } else {
       showError(input, errorMessage);
-      console.log(input.id + ": " + input.value + errorMessage);
+      console.log(input.id + " :" + input.value + " ⚠saisie invalide ==> " + errorMessage);
 
       return  false;
-
     }
   });
 }
 
 /**
  *   ########################################################################################
- *       Date
+ *                                         Date de naissance
  *   ########################################################################################
+ */
+/**
+ * Récupère les éléments HTML pour la date de naissance
+ * @type {HTMLElement}
  */
 const birthdateInput = document.getElementById('birthdate');
 const birthdateErrorMessage = "La date n'est pas valide";
@@ -142,7 +138,7 @@ function validateBirthdate(input) {
 
 /**
  *   ########################################################################################
- *       Quantité De Tournois
+ *                  À combien de tournois GameOn avez-vous déjà participé ?
  *   ########################################################################################
  */
 const errorMessage = 'Attention, veuillez entrer un nombre compris entre 0 et 99.';
@@ -161,9 +157,6 @@ function addQuantityInput(input) {
       hideError(input);
       isQuantityInputValid = true;
       console.log("Le Nombre de tournois est valide => "  + input.value);
-
-      // return true;
-
     }
   });
 
@@ -174,12 +167,9 @@ function addQuantityInput(input) {
   };
 }
 
-
-const locationErrorMessage = 'Vous devez sélectionner une localisation';
-
 /**
  *   ########################################################################################
- *       Sélection de la localisation
+ *                  A quel tournoi souhaitez-vous participer cette année ?
  *   ########################################################################################
  */
 /**
@@ -226,16 +216,13 @@ function isLocationValid() {
     return false;
 
   }
-  // return isValid;
 }
 
 /**
  *   ########################################################################################
- *       Conditions d'utilisation
- *       Vous avez bien accepté les conditions d utilisation
+ *                      J'ai lu et accepté les conditions d'utilisation.
  *   ########################################################################################
  */
-
 
 const checkbox = document.getElementById('checkbox1');
 const conditions = document.getElementById('conditions');
@@ -251,7 +238,6 @@ function isCheckboxChecked() {
 
     console.log("Veuillez accepter les conditions d'utilisation.");
 
-
     return false;
   } else {
     hideError(checkbox);
@@ -261,11 +247,9 @@ function isCheckboxChecked() {
   }
 }
 
-
-
 /**
  *   ########################################################################################
- *        Prochains évènements
+ *                    Je souhaite être prévenu des prochains évènements.
  *   ########################################################################################
  */
 
@@ -324,8 +308,6 @@ function hideError(input) {
   const inputContainer = input.parentElement;
   inputContainer.setAttribute('data-error-visible', 'false');
 }
-
-
 
 /**
  *   ########################################################################################
