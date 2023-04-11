@@ -13,8 +13,11 @@
     />
   </head>
 
+  <!-- Start: body -->
   <body>
+    <!-- Start: Header section -->
     <header>
+      <!-- Start: Navbar -->
       <nav class="topnav" id="myTopnav">
         <div class="header-logo">
           <img alt="logo" src="img/Logo.png" width="auto" height="auto" />
@@ -30,8 +33,11 @@
           </a>
         </div>
       </nav>
+      <!-- End: Navbar -->
     </header>
+    <!-- End: Header section -->
 
+    <!-- Start: main -->
     <main>
       <div class="hero-section">
         <div class="hero-content">
@@ -55,7 +61,9 @@
         <div class="content">
           <span class="close"></span>
           <div class="modal-body">
+            <!-- Start: Form -->
             <form id="form" name="reserve" action="index.html" method="get">
+              <!-- Start: Firstname -->
               <div class="formData">
                 <label for="first">Prénom</label><br>
                 <input
@@ -66,6 +74,9 @@
                   minlength="2"
                 /><br>
               </div>
+              <!-- End: firstname -->
+
+              <!-- Start: lastname -->
               <div
                 class="formData">
                 <label for="last">Nom</label><br>
@@ -76,6 +87,9 @@
                   name="last"
                 /><br>
               </div>
+              <!-- End: lastname -->
+
+              <!-- Start: E-mail -->
               <div
                 class="formData">
                 <label for="email">E-mail</label><br>
@@ -86,6 +100,9 @@
                   name="email"
                 /><br>
               </div>
+              <!-- Email: E-mail -->
+
+              <!-- Start: Birthdate -->
               <div class="formData">
                 <label for="birthdate">Date de naissance</label><br>
                 <input
@@ -95,14 +112,18 @@
                   name="birthdate"
                 /><br>
               </div>
+              <!-- End: Birthdate -->
+
               <div class="formData">
                 <label for="quantity">À combien de tournois GameOn avez-vous déjà participé ?</label><br>
                 <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
               </div>
               <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
 
+              <!-- Start: checkbox location Aera -->
               <div id="checkbox"
                 class="formData">
+                <!-- Start: checkbox location1 -->
                 <input
                   class="checkbox-input"
                   type="radio"
@@ -114,6 +135,9 @@
                   <span class="checkbox-icon"></span>
                   New York</label
                 >
+                <!-- End: checkbox location1 -->
+
+                <!-- Start: checkbox location2 -->
                 <input
                   class="checkbox-input"
                   type="radio"
@@ -125,6 +149,9 @@
                   <span class="checkbox-icon"></span>
                   San Francisco</label
                 >
+                <!-- Start: checkbox location2 -->
+
+                <!-- Start: checkbox location3 -->
                 <input
                   class="checkbox-input"
                   type="radio"
@@ -136,6 +163,9 @@
                   <span class="checkbox-icon"></span>
                   Seattle</label
                 >
+                <!-- End: checkbox location3 -->
+
+                <!-- Start: checkbox location4 -->
                 <input
                   class="checkbox-input"
                   type="radio"
@@ -147,6 +177,9 @@
                   <span class="checkbox-icon"></span>
                   Chicago</label
                 >
+                <!-- End: checkbox location4 -->
+
+                <!-- Start: checkbox location5 -->
                 <input
                   class="checkbox-input"
                   type="radio"
@@ -158,6 +191,9 @@
                   <span class="checkbox-icon"></span>
                   Boston</label
                 >
+                <!-- End: checkbox location5 -->
+
+                <!-- Start: checkbox location6 -->
                 <input
                   class="checkbox-input"
                   type="radio"
@@ -169,8 +205,11 @@
                   <span class="checkbox-icon"></span>
                   Portland</label
                 >
+                <!-- End: checkbox location6 -->
               </div>
+              <!-- Start: checkbox location Aera -->
 
+              <!-- Start: conditions Aera -->
               <div
                 class="formData" id="conditions">
                 <input
@@ -183,8 +222,9 @@
                   J'ai lu et accepté les conditions d'utilisation.
                 </label>
               </div>
+              <!-- End: conditions Aera -->
 
-<!--                <br>-->
+              <!-- Start: events Aera -->
               <div class="formData" id="events">
                 <input class="checkbox-input" type="checkbox" id="checkbox2" />
                 <label class="checkbox2-label" for="checkbox2">
@@ -192,35 +232,32 @@
                   Je Je souhaite être prévenu des prochains évènements.
                 </label>
               </div>
-
+              <!-- End: events Aera -->
                 <br>
-              <input id="submitButton"
-                class="btn-submit"
-                type="submit"
-                value="C'est parti"
-              />
+              <!-- Start: Button submit -->
+              <button id="submitButton" class="btn-submit" type="submit">C'est parti</button>
+              <!-- End: Button submit -->
             </form>
+            <!-- End: Form -->
           </div>
         </div>
       </div>
 
+      <!-- Start: success Modal -->
       <div id="successModal" class="bgroundMessage">
         <div class="content">
           <span class="close"></span>
           <div class="modal-body">
               <p class="text-label-span"><span class="text-label-span">Merci pour<br>votre inscription</span></p>
               <br>
-              <input id="closeModal"
-                     class="closeModalMessage"
-                     type="button"
-                     value="Fermer"
-              />
+              <input id="closeModal" class="closeModalMessage" type="button" value="Fermer"/>
           </div>
         </div>
       </div>
-
-
+      <!-- End: success Modal -->
     </main>
+    <!-- End: main -->
+
     <footer>
       <p class="copyrights">
         Copyright 2014 - 2022, GameOn Inc.
@@ -228,4 +265,5 @@
     </footer>
     <script src="js/modal.js"></script>
   </body>
+  <!-- Start: body -->
 </html>

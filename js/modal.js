@@ -102,10 +102,6 @@ function validateInput(input, regex, errorMessage) {
   });
 }
 
-
-
-
-
 /**
  *   ########################################################################################
  *       Date
@@ -342,7 +338,6 @@ function showSubmitModal() {
   successModal.style.display = "block";
 }
 
-
 // Récupère l'élément input de quantité de tournois et ajoute l'écouteur d'événement
 const quantityInput = document.getElementById('quantity');
 const quantityInputListener = addQuantityInput(quantityInput);
@@ -358,6 +353,7 @@ const closeModalButton = document.getElementById('closeModal');
 // Ajoute un gestionnaire d'événement de clic au bouton de fermeture de la modal
 closeModalButton.addEventListener('click', function() {
   successModal.style.display = 'none';
+  location.reload(true);
   console.log("Formulaire réinitialisé !");
 });
 
@@ -388,6 +384,9 @@ registrationForm.addEventListener('submit', function(event)  {
     console.log("Votre formulaire a été soumis avec succès!");
     showSubmitModal()
     registrationForm.reset();
+    formData.forEach((div) => {
+      div.setAttribute('data-valid', 'true');
+    });
 
 
   } else {
@@ -400,13 +399,13 @@ registrationForm.addEventListener('submit', function(event)  {
     }
 
     if (!lastNameValid) {
-      showError(lastNameInput, "Le nom doit comporter au moins 2 lettres");
+      showError(lastNameInput, " Le nom doit comporter au moins 2 lettres");
     } else {
       hideError(lastNameInput);
     }
 
     if (!emailValid) {
-      showError(emailInput, "L'email n'est pas valide");
+      showError(emailInput, " L'email n'est pas valide");
     } else {
       hideError(emailInput);
     }
