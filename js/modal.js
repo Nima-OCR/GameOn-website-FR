@@ -407,3 +407,4 @@ registrationForm.addEventListener('submit', function(event)  {
     isCheckboxChecked();
   }
 });
+
