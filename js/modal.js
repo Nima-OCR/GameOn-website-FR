@@ -10,19 +10,14 @@ function editNav() {
 // DOM Elements
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
-const form = document.querySelector('form');
 const formData = document.querySelectorAll(".formData");
-
-
+const form = document.getElementById('form');
 
 
 modalBtn.forEach((btn) => btn.addEventListener("click", function() {
-  form.reset();
-  console.log("Formulaire réinitialisé !");
   launchModal();
   console.log("Lancement du formulaire d'inscription");
 }));
-
 
 
 // launch modal form
@@ -37,18 +32,37 @@ function launchModal() {
  *   ########################################################################################
  */
 
-// Sélectionne l'élément avec la classe "close" et le stocke dans la variable "closeModal".
-const closeModal = document.querySelector(".close");
-
-//Cette fonction change la propriété "display" de l'élément "modalbg" en "none".
-const closeFunction = () => {
-  modalbg.style.display = "none"
-  console.log("Le formulaire a été quité avec [X]");
+// Supprime les attributs "data-error", "data-error-visible" et "data-valid" des champs d'entrée.
+function clearErrors() {
+  const inputs = document.querySelectorAll('.formData');
+  inputs.forEach(function(input) {
+    input.removeAttribute('data-error');
+    input.removeAttribute('data-error-visible');
+    input.removeAttribute('data-valid');
+  });
 }
 
-// Ajoute un événement "click" à l'élément closeModal qui exécutera la fonction closeFunction lorsque l'utilisateur cliquera sur cet élément.
-closeModal.addEventListener("click", closeFunction);
+//Cette fonction change la propriété "display" de l'élément "modalbg" et "successModal" en "none".
+const closeFunction = () => {
+  modalbg.style.display = "none"
+  successModal.style.display = 'none';
 
+  console.log("Fermeture du formulaire réussi");
+
+  form.reset();
+  clearErrors();
+  console.log("le formulaire est réinitialisé !");
+}
+
+// Sélectionne tous les éléments avec la classe "close" et les stocke dans la variable "closeModal"
+const closeModal = document.querySelectorAll('.close');
+
+// // Ajoute un événement "click" à chaque élément closeModal
+closeModal.forEach(function(button) {
+  button.addEventListener('click', function() {
+    closeFunction();
+  });
+});
 
 /**
  *   #############################################################################################
@@ -143,6 +157,7 @@ function validateBirthdate(input) {
  */
 const errorMessage = 'Attention, veuillez entrer un nombre compris entre 0 et 99.';
 
+// Cette fonction prend un élément "input" comme argument et ajoute un événement "blur" à cet élément.
 function addQuantityInput(input) {
   let isQuantityInputValid = false;
 
@@ -152,7 +167,6 @@ function addQuantityInput(input) {
       isQuantityInputValid = false;
       console.log("Nombre saisi: " + input.value + " => veuillez entrer un nombre compris entre 0 et 99");
 
-      // return false;
     } else {
       hideError(input);
       isQuantityInputValid = true;
@@ -172,14 +186,11 @@ function addQuantityInput(input) {
  *                  A quel tournoi souhaitez-vous participer cette année ?
  *   ########################################################################################
  */
-/**
 
- Récupère les boutons radios qui ont pour attribut "location"
- @type {HTMLInputElement}
- */
+// Récupère les boutons radios qui ont pour attribut "location"
 const locationRadios = document.querySelectorAll('[name="location"]');
-/**
 
+/**
  Ajoute un événement "change" à chaque bouton radio récupéré, qui déclenche la fonction isLocationValid()
  @param {Event} event - L'événement change déclenché par le clic sur un bouton radio
  */
@@ -227,10 +238,12 @@ function isLocationValid() {
 const checkbox = document.getElementById('checkbox1');
 const conditions = document.getElementById('conditions');
 
+// Ajoute un écouteur d'événement à la case à cocher qui écoute l'événement "change".
 checkbox.addEventListener('change', function() {
   isCheckboxChecked();
 });
 
+// Cette fonction vérifie si une case à cocher (checkbox) est cochée ou non.
 function isCheckboxChecked() {
   if (checkbox.checked === false) {
     showError(checkbox, 'Veuillez accepter les conditions d\'utilisation.');
@@ -253,23 +266,13 @@ function isCheckboxChecked() {
  *   ########################################################################################
  */
 
-/**
- Récupère la case à cocher pour les Prochains évènements
- @type {HTMLInputElement}
- */
+// Récupère la case à cocher pour les Prochains évènements
 const eventsCheckbox = document.getElementById('checkbox2');
 
-/**
- Récupère l'élément HTML du DOM avec l'identifiant 'events' & l'affecte à la variable upcomingEvents.
- @type {HTMLFormElement}
- */
+// Récupère l'élément HTML du DOM avec l'identifiant 'events' & l'affecte à la variable upcomingEvents.
 const upcomingEvents = document.getElementById('events');
 
-/**
- Fonction qui vérifie si la case à cocher pour les événements est cochée
- Si oui, affiche un message
- Sinon, cache le message et n'affiche aucun message
- */
+// Fonction qui vérifie si la case à cocher pour les événements est cochée
 function upcomingEventsMessage() {
   eventsCheckbox.checked ?
     upcomingEvents.setAttribute('data-error-visible', 'true') :
@@ -297,13 +300,14 @@ upcomingEvents.addEventListener('input', upcomingEventsMessage);
  *   ########################################################################################
  */
 
-
+// / Cette fonction affiche un message d'erreur sous l'élément parent de l'élément "input".
 function showError(input, errorMessage) {
   const inputContainer = input.parentElement;
   inputContainer.setAttribute('data-error', errorMessage);
   inputContainer.setAttribute('data-error-visible', 'true');
 }
 
+// Cette fonction cache le message d'erreur associé à l'élément "input"
 function hideError(input) {
   const inputContainer = input.parentElement;
   inputContainer.setAttribute('data-error-visible', 'false');
@@ -315,45 +319,38 @@ function hideError(input) {
  *   ########################################################################################
  */
 
+// Utilise le DOM pour récupérer et stocker des éléments HTML
+const quantityInput = document.getElementById('quantity');
+const quantityInputListener = addQuantityInput(quantityInput);
+const registrationForm = document.getElementById('form');
+const successModal = document.querySelector('.bgroundMessage');
+const closeModalButton = document.getElementById('closeModal');
+
+// Cette fonction affiche le modal de confirmation de soumission en cachant le modal du formulaire
 function showSubmitModal() {
   modalbg.style.display = 'none';
   successModal.style.display = "block";
 }
 
-// Récupère l'élément input de quantité de tournois et ajoute l'écouteur d'événement
-const quantityInput = document.getElementById('quantity');
-const quantityInputListener = addQuantityInput(quantityInput);
-const registrationForm = document.getElementById('form');
-const successModal = document.querySelector('.bgroundMessage');
-// Récupère le bouton de soumission du formulaire
-const submitButton = document.getElementById('submitButton');
-
-// Récupère le bouton de fermeture de la modal
-const closeModalButton = document.getElementById('closeModal');
-
 
 // Ajoute un gestionnaire d'événement de clic au bouton de fermeture de la modal
 closeModalButton.addEventListener('click', function() {
   successModal.style.display = 'none';
-  location.reload(true);
-  console.log("Formulaire réinitialisé !");
-});
+  clearErrors();
 
-let isFormSubmittedSuccess = false;
+  console.log("Fermeture de la modale et le formulaire est réinitialisé !");
+});
 
 
 // Ajoute un gestionnaire d'événement click au bouton de soumission
 registrationForm.addEventListener('submit', function(event)  {
   event.preventDefault(); // Annule l'événement de soumission du formulaire
 
-
   const firstNameValid = /^\s*(?=.*[a-zA-Zéèàùç])[a-zA-Zéèàùç]{2,}\s*$/.test(firstNameInput.value);
   const lastNameValid = /^\s*(?=.*[a-zA-Zéèàùç])[a-zA-Zéèàùç]{2,}\s*$/.test(lastNameInput.value);
   const emailValid = /^([a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/.test(emailInput.value);
+
   // Vérifie si la valeur est valide avant d'envoyer le formulaire
-
-
-
   if (
     quantityInputListener.isQuantityInputValid()
     && isBirthdateValid
